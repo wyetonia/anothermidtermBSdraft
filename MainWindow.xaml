@@ -1,0 +1,93 @@
+﻿<Window x:Class="anothermidtermBSdraft.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:anothermidtermBSdraft"
+        mc:Ignorable="d"
+        Title="Inventory System" Height="500" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" MinHeight="206"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <!-- ListView -->
+        <ListView x:Name="listView" Grid.Column="0" Grid.Row="1" Margin="5" ItemsSource="{Binding InventoryItems}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" SelectionMode="Single">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Item_ID" DisplayMemberBinding="{Binding Item_ID}"/>
+                    <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}"/>
+                    <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price, StringFormat={}{0:C}}"/>
+                    <GridViewColumn Header="Stock" DisplayMemberBinding="{Binding Stock}"/>
+                    <GridViewColumn Header="Supply_Image" DisplayMemberBinding="{Binding ImagePath}"/>
+                    <GridViewColumn Header="Category" DisplayMemberBinding="{Binding Category}"/>
+                    <GridViewColumn Header="Staff_ID" DisplayMemberBinding="{Binding Staff_ID}"/>
+                </GridView>
+            </ListView.View>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+
+        <!-- Display Selected Item's Photo -->
+        <Grid>
+            <Image x:Name="SelectedItemImage" Width="117" Source="{Binding SelectedItem.ImagePath, ElementName=listView}" Margin="0,-2,0,2"/>
+        </Grid>
+
+
+        <!-- Adding Items -->
+        <StackPanel Grid.Column="1" Grid.Row="2" Margin="0,3,0,1" HorizontalAlignment='Right' Width="160">
+            <TextBlock Text="Description:" FontWeight="Bold"/>
+            <TextBox x:Name="descriptionTextBox" Width="150" Margin="0,5,0,0"
+                     Text="{Binding SelectedItem.Description, ElementName=listView}"/>
+            <TextBlock Text="Price:" FontWeight="Bold" Margin="0,5,0,0"/>
+            <TextBox x:Name="priceTextBox" Width="150" Margin="0,5,0,0"
+                     Text="{Binding SelectedItem.Price, ElementName=listView}"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Stock:" FontWeight="Bold" Margin="0,5,0,0" Grid.Column="0" Grid.Row="0"/>
+                <TextBlock x:Name="stockTextBlock" Text="{Binding SelectedItem.Stock, ElementName=listView}" Width="50" Margin="0,5,0,0" Grid.Column="1" Grid.Row="0"/>
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,5,0,0" Grid.ColumnSpan="2" HorizontalAlignment="Right" Width="103">
+                    <Button Content="+" Click="IncrementStock_Click" Margin="0,0,5,0" Width="24"/>
+                    <Button Content="-" Click="DecrementStock_Click" Margin="0,0,5,0" Width="24"/>
+                </StackPanel>
+            </Grid>
+
+            <ComboBox x:Name="cbCategories" Margin="0,12,7,14">
+                <ComboBoxItem Content="Cat"/>
+                <ComboBoxItem Content="Dog"/>
+            </ComboBox>
+
+            <Button Content="Add" Click="AddItem_Click" Margin="0,5,7,14"/>
+            <Button Content="Delete" Click="DeleteItem_Click" Margin="0,5,7,14"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" HorizontalAlignment="Center" Width="160" Height="202" VerticalAlignment="Center">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Margin="0,0,0,-158" Grid.RowSpan="2">
+                    <StackPanel.Background>
+                        <ImageBrush ImageSource="C:\Users\COCO\OneDrive\Desktop\School\Programming 1\MVS\anothermidtermBSdraft\Assets\UploadImage.png"/>
+                    </StackPanel.Background>
+                    <Image x:Name="Photo"/>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+
+        <Button Content="Upload Image" Width="150" Margin="0,174,0,0" Click="UploadImageClick" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1"/>
+
+    </Grid>
+</Window>
